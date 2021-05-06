@@ -286,14 +286,16 @@ impl ValueCommitment {
     /// https://zips.z.cash/protocol/protocol.pdf#concretehomomorphiccommit
     #[allow(non_snake_case)]
     pub fn new(rcv: jubjub::Fr, value: Amount) -> Self {
+        use lazy_static::lazy_static;
+
+        lazy_static! {
+            static ref V: jubjub::ExtendedPoint = find_group_hash(*b"Zcash_cv", b"v");
+            static ref R: jubjub::ExtendedPoint = find_group_hash(*b"Zcash_cv", b"r");
+        }
+
         let v = jubjub::Fr::from(value);
 
-        // TODO: These generator points can be generated once somewhere else to
-        // avoid having to recompute them on every new commitment.
-        let V = find_group_hash(*b"Zcash_cv", b"v");
-        let R = find_group_hash(*b"Zcash_cv", b"r");
-
-        Self::from(V * v + R * rcv)
+        Self::from(*V * v + *R * rcv)
     }
 }
 
