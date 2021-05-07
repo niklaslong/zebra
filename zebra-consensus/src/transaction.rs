@@ -27,6 +27,8 @@ use crate::{error::TransactionError, primitives, script, BoxError};
 
 mod check;
 #[cfg(test)]
+mod test_vector_tests;
+#[cfg(test)]
 mod tests;
 
 /// Asynchronous transaction verification.
