@@ -220,7 +220,7 @@ where
     /// Getting the binding signature validating key from the Spend and Output
     /// description value commitments and the balancing value implicitly checks
     /// that the balancing value is consistent with the value transfered in the
-    /// Spend and Output descriptions but also proves that the signer knew the
+    /// Spend and Output descriptions, but also proves that the signer knew the
     /// randomness used for the Spend and Output value commitments, which
     /// prevents replays of Output descriptions.
     ///
@@ -238,12 +238,22 @@ where
     ///
     /// https://zips.z.cash/protocol/protocol.pdf#saplingbalance
     pub fn binding_verification_key(&self) -> redjubjub::VerificationKeyBytes<Binding> {
+        use std::convert::TryFrom;
+
         let cv_old: ValueCommitment = self.spends().map(|spend| spend.cv).sum();
         let cv_new: ValueCommitment = self.outputs().map(|output| output.cv).sum();
         let cv_balance: ValueCommitment =
             ValueCommitment::new(jubjub::Fr::zero(), self.value_balance);
 
         let key_bytes: [u8; 32] = (cv_old - cv_new - cv_balance).into();
+
+        println!("\ncv_old: {:?}", cv_old);
+        println!("cv_new: {:?}", cv_new);
+        println!("cv_balance: {:?}", cv_balance);
+        println!(
+            "key_bytes: {:?}",
+            redjubjub::VerificationKey::<Binding>::try_from(key_bytes).unwrap()
+        );
 
         key_bytes.into()
     }

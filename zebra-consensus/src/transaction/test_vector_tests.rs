@@ -31,15 +31,25 @@ fn verify_test_vector_binding_signatures() {
                         )
                         .expect("a valid redjubjub::VerificationKey");
 
-                        println!("{:?}", sapling_shielded_data);
+                        let mut data_to_be_signed = [0u8; 64];
+                        data_to_be_signed[0..32].copy_from_slice(&<[u8; 32]>::from(bvk));
+                        (&mut data_to_be_signed[32..64])
+                            .copy_from_slice(&shielded_sighash.as_ref());
 
                         if let Err(_) = bvk.verify(
                             shielded_sighash.as_ref(),
                             &sapling_shielded_data.binding_sig,
                         ) {
-                            println!("{:?}", sapling_shielded_data);
-                            println!("{:?}", bvk);
-                            panic!()
+                            match bvk
+                                .verify(&data_to_be_signed[..], &sapling_shielded_data.binding_sig)
+                            {
+                                Ok(_) => (),
+                                Err(_) => {
+                                    println!("FAIL!\n");
+                                    println!("{:?}\n", sapling_shielded_data);
+                                }
+                            }
+                            // panic!()
                         }
                     }
                 }
