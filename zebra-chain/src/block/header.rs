@@ -51,11 +51,10 @@ pub struct Header {
     /// Zcash blocks contain different kinds of commitments to their contents,
     /// depending on the network and height.
     ///
-    /// The interpretation of this field has been changed multiple times, without
-    /// incrementing the block [`version`]. Therefore, this field cannot be
-    /// parsed without the network and height. Use
-    /// [`Block::commitment`](super::Block::commitment) to get the parsed
-    /// [`Commitment`](super::Commitment).
+    /// The interpretation of this field has been changed multiple times,
+    /// without incrementing the block `version`. Therefore, this field cannot
+    /// be parsed without the network and height. Use
+    /// [`super::Block::commitment`] to get the parsed [`super::Commitment`].
     pub commitment_bytes: [u8; 32],
 
     /// The block timestamp is a Unix epoch time (UTC) when the miner
@@ -69,21 +68,20 @@ pub struct Header {
     /// For a block at block height `height`, bits MUST be equal to
     /// `ThresholdBits(height)`.
     ///
-    /// [Bitcoin-nBits](https://bitcoin.org/en/developer-reference#target-nbits)
+    /// [Bitcoin-nBits]: https://bitcoin.org/en/developer-reference#target-nbits
     pub difficulty_threshold: CompactDifficulty,
 
-    /// An arbitrary field that miners can change to modify the header
-    /// hash in order to produce a hash less than or equal to the
-    /// target threshold.
+    /// An arbitrary field that miners can change to modify the header hash in
+    /// order to produce a hash less than or equal to the target threshold.
     pub nonce: [u8; 32],
 
     /// The Equihash solution.
     pub solution: Solution,
 }
 
-/// TODO: Use this error as the source for zebra_consensus::error::BlockError::Time,
-/// and make `BlockError::Time` add additional context.
-/// See https://github.com/ZcashFoundation/zebra/issues/1021 for more details.
+// TODO: Use this error as the source for zebra_consensus::error::BlockError::Time,
+// and make `BlockError::Time` add additional context.
+// See <https://github.com/ZcashFoundation/zebra/issues/1021> for more details.
 #[allow(missing_docs)]
 #[derive(Error, Debug)]
 pub enum BlockTimeError {
@@ -97,8 +95,9 @@ pub enum BlockTimeError {
 }
 
 impl Header {
-    /// TODO: Inline this function into zebra_consensus::block::check::time_is_valid_at.
-    /// See https://github.com/ZcashFoundation/zebra/issues/1021 for more details.
+    /// Checks that this block header's time is within two hours of a DateTime `now`
+    // TODO: Inline this function into zebra_consensus::block::check::time_is_valid_at.
+    // See <https://github.com/ZcashFoundation/zebra/issues/1021 for more details.>
     pub fn time_is_valid_at(
         &self,
         now: DateTime<Utc>,
@@ -130,8 +129,7 @@ pub struct CountedHeader {
     /// The header for a block
     pub header: Header,
     /// The number of transactions that come after the header
-    ///
-    /// TODO: should this always be zero? (#1924)
+    // TODO: should this always be zero? (#1924)
     pub transaction_count: usize,
 }
 

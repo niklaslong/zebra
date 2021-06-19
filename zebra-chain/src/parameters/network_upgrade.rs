@@ -118,18 +118,18 @@ pub const POW_AVERAGING_WINDOW: usize = 17;
 /// The multiplier used to derive the testnet minimum difficulty block time gap
 /// threshold.
 ///
-/// Based on https://zips.z.cash/zip-0208#minimum-difficulty-blocks-on-the-test-network
+/// Based on <https://zips.z.cash/zip-0208#minimum-difficulty-blocks-on-the-test-network>
 const TESTNET_MINIMUM_DIFFICULTY_GAP_MULTIPLIER: i32 = 6;
 
 /// The start height for the testnet minimum difficulty consensus rule.
 ///
-/// Based on https://zips.z.cash/zip-0208#minimum-difficulty-blocks-on-the-test-network
+/// Based on <https://zips.z.cash/zip-0208#minimum-difficulty-blocks-on-the-test-network>
 const TESTNET_MINIMUM_DIFFICULTY_START_HEIGHT: block::Height = block::Height(299_188);
 
 /// The activation height for the block maximum time rule on Testnet.
 ///
 /// Part of the block header consensus rules in the Zcash specification at
-/// https://zips.z.cash/protocol/protocol.pdf#blockheader
+/// <https://zips.z.cash/protocol/protocol.pdf#blockheader>
 pub const TESTNET_MAX_TIME_START_HEIGHT: block::Height = block::Height(653_606);
 
 impl NetworkUpgrade {
@@ -216,7 +216,7 @@ impl NetworkUpgrade {
 
     /// Returns the target block spacing for `network` and `height`.
     ///
-    /// See [`target_spacing()`] for details.
+    /// See [`NetworkUpgrade::target_spacing()`] for details.
     pub fn target_spacing_for_height(network: Network, height: block::Height) -> Duration {
         NetworkUpgrade::current(network, height).target_spacing()
     }
@@ -224,7 +224,7 @@ impl NetworkUpgrade {
     /// Returns the minimum difficulty block spacing for `network` and `height`.
     /// Returns `None` if the testnet minimum difficulty consensus rule is not active.
     ///
-    /// Based on https://zips.z.cash/zip-0208#minimum-difficulty-blocks-on-the-test-network
+    /// Based on <https://zips.z.cash/zip-0208#minimum-difficulty-blocks-on-the-test-network>
     pub fn minimum_difficulty_spacing_for_height(
         network: Network,
         height: block::Height,
@@ -279,7 +279,7 @@ impl NetworkUpgrade {
 
     /// Returns the averaging window timespan for `network` and `height`.
     ///
-    /// See [`averaging_window_timespan()`] for details.
+    /// See [`NetworkUpgrade::averaging_window_timespan()`] for details.
     pub fn averaging_window_timespan_for_height(
         network: Network,
         height: block::Height,
@@ -294,14 +294,14 @@ impl NetworkUpgrade {
     /// TESTNET_MAX_TIME_START_HEIGHT to return true.
     /// Returns false otherwise.
     ///
-    /// Part of the consensus rules at https://zips.z.cash/protocol/protocol.pdf#blockheader
+    /// Part of the consensus rules at <https://zips.z.cash/protocol/protocol.pdf#blockheader>
     pub fn is_max_block_time_enforced(network: Network, height: block::Height) -> bool {
         match network {
             Network::Mainnet => true,
             Network::Testnet => height >= TESTNET_MAX_TIME_START_HEIGHT,
         }
     }
-    /// Returns the NetworkUpgrade given an u32 as ConsensusBranchId
+    /// Returns the [`NetworkUpgrade`] given an u32 as ConsensusBranchId
     pub fn from_branch_id(branch_id: u32) -> Option<NetworkUpgrade> {
         CONSENSUS_BRANCH_IDS
             .iter()

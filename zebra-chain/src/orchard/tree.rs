@@ -36,8 +36,8 @@ const MERKLE_DEPTH: usize = 32;
 /// where l = I2LEBSP_10(MerkleDepth^Orchard − 1 − layer) and left, right, and
 /// the output are all technically 255 bits (l_MerkleOrchard), not 256.
 ///
-/// https://zips.z.cash/protocol/nu5.pdf#merklecrh
-/// https://zips.z.cash/protocol/nu5.pdf#constants
+/// <https://zips.z.cash/protocol/nu5.pdf#merklecrh>
+/// <https://zips.z.cash/protocol/nu5.pdf#constants>
 fn merkle_crh_orchard(layer: u8, left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
     let mut s = bitvec![Lsb0, u8;];
 
@@ -52,7 +52,7 @@ fn merkle_crh_orchard(layer: u8, left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
 lazy_static! {
     /// Orchard note commitment trees have a max depth of 32.
     ///
-    /// https://zips.z.cash/protocol/nu5.pdf#constants
+    /// <https://zips.z.cash/protocol/nu5.pdf#constants>
     static ref EMPTY_ROOTS: Vec<[u8; 32]> = {
         // Uncommitted^Orchard = I2LEBSP_l_MerkleOrchard(1)
         let mut v = vec![jubjub::Fq::one().to_bytes()];
@@ -70,7 +70,7 @@ lazy_static! {
 /// The index of a note’s commitment at the leafmost layer of its
 /// `NoteCommitmentTree`.
 ///
-/// https://zips.z.cash/protocol/nu5.pdf#merkletree
+/// <https://zips.z.cash/protocol/nu5.pdf#merkletree>
 // XXX: dedupe with sapling?
 pub struct Position(pub(crate) u64);
 

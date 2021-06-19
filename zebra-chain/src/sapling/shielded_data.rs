@@ -150,14 +150,14 @@ where
 
         /// At least one spend.
         ///
-        /// Use the [`ShieldedData::spends`] method to get an iterator over the
+        /// Use the [`ShieldedData::spends`()] method to get an iterator over the
         /// [`Spend`]s in this `TransferData`.
         spends: AtLeastOne<Spend<AnchorV>>,
 
         /// Maybe some outputs (can be empty).
         ///
-        /// Use the [`ShieldedData::outputs`] method to get an iterator over the
-        /// [`Outputs`]s in this `TransferData`.
+        /// Use the [`ShieldedData::outputs()`] method to get an iterator over the
+        /// [`Output`]s in this `TransferData`.
         maybe_outputs: Vec<Output>,
     },
 
@@ -169,8 +169,8 @@ where
     JustOutputs {
         /// At least one output.
         ///
-        /// Use the [`ShieldedData::outputs`] method to get an iterator over the
-        /// [`Outputs`]s in this `TransferData`.
+        /// Use the [`Self::outputs()`] method to get an iterator over the
+        /// [`Output`]s in this `TransferData`.
         outputs: AtLeastOne<Output>,
     },
 }
@@ -251,7 +251,7 @@ where
     /// of the value commitments in the Spend descriptions and Output
     /// descriptions of the transaction, and the balancing value.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingbalance
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingbalance>
     pub fn binding_verification_key(&self) -> redjubjub::VerificationKeyBytes<Binding> {
         let cv_old: ValueCommitment = self.spends().map(|spend| spend.cv).sum();
         let cv_new: ValueCommitment = self.outputs().map(|output| output.cv).sum();

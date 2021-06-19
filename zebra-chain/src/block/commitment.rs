@@ -30,7 +30,7 @@ pub enum Commitment {
     /// via their `EarliestSaplingRoot` and `LatestSaplingRoot` fields.
     ///
     /// Since Zebra checkpoints on Canopy, we don't need to validate this
-    /// field, but since it's included in the ChainHistoryRoot, we are
+    /// field, but since it's included in the [`Commitment::ChainHistoryRoot`], we are
     /// already calculating it, so we might as well validate it.
     ///
     /// TODO: this field is verified during semantic verification
@@ -65,7 +65,7 @@ pub enum Commitment {
     /// need to verify the chain history root from `Canopy + 1 block` onwards,
     /// using a new history tree based on the `Canopy` activation block.
     ///
-    /// NU5 and later upgrades use the [`ChainHistoryBlockTxAuthCommitment`]
+    /// NU5 and later upgrades use the [`Commitment::ChainHistoryBlockTxAuthCommitment`]
     /// variant.
     ///
     /// TODO: this field is verified during contextual verification
@@ -84,13 +84,13 @@ pub enum Commitment {
     /// This commitment supports the FlyClient protocol and non-malleable
     /// transaction IDs. See ZIP-221 and ZIP-244 for details.
     ///
-    /// See also the [`ChainHistoryRoot`] variant.
+    /// See also the [`Commitment::ChainHistoryRoot`] variant.
     ///
     /// TODO: this field is verified during contextual verification
     ChainHistoryBlockTxAuthCommitment(ChainHistoryBlockTxAuthCommitmentHash),
 }
 
-/// The required value of reserved `Commitment`s.
+/// The required value of reserved [`Commitment`]s.
 pub(crate) const CHAIN_HISTORY_ACTIVATION_RESERVED: [u8; 32] = [0; 32];
 
 impl Commitment {

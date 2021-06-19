@@ -101,7 +101,7 @@ impl Spend<PerSpendAnchor> {
     ///
     /// NB: jubjub::Fq is a type alias for bls12_381::Scalar.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#cctsaplingspend
+    /// <https://zips.z.cash/protocol/protocol.pdf#cctsaplingspend>
     pub fn primary_inputs(&self) -> Vec<jubjub::Fq> {
         let mut inputs = vec![];
 

@@ -32,7 +32,7 @@ const MERKLE_DEPTH: usize = 29;
 ///
 /// `layer` is unused for Sprout but used for the Sapling equivalent.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#merklecrh
+/// <https://zips.z.cash/protocol/protocol.pdf#merklecrh>
 fn merkle_crh_sprout(left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
     let mut other_block = [0u8; 64];
     other_block[..32].copy_from_slice(&left[..]);
@@ -57,7 +57,7 @@ fn merkle_crh_sprout(left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
 lazy_static! {
     /// Sprout note commitment trees have a max depth of 29.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#constants
+    /// <https://zips.z.cash/protocol/protocol.pdf#constants>
     static ref EMPTY_ROOTS: Vec<[u8; 32]> = {
         // Uncommitted^Sprout = = [0]^l_MerkleSprout
         let mut v = vec![[0u8; 32]];
@@ -73,7 +73,7 @@ lazy_static! {
 /// The index of a note's commitment at the leafmost layer of its Note
 /// Commitment Tree.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#merkletree
+/// <https://zips.z.cash/protocol/protocol.pdf#merkletree>
 pub struct Position(pub(crate) u64);
 
 /// Sprout note commitment tree root node hash.

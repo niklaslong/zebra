@@ -52,7 +52,7 @@ pub(super) const RANDOMNESS_BEACON_URS: &[u8; 64] =
 ///
 /// PRF^expand(sk, t) := BLAKE2b-512("Zcash_ExpandSeed", sk || t)
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#concreteprfs
+/// <https://zips.z.cash/protocol/protocol.pdf#concreteprfs>
 fn prf_expand(sk: [u8; 32], t: &[u8]) -> [u8; 64] {
     let hash = blake2b_simd::Params::new()
         .hash_length(64)
@@ -69,7 +69,7 @@ fn prf_expand(sk: [u8; 32], t: &[u8]) -> [u8; 64] {
 ///
 /// PRF^ock(ovk, cv, cm_u, ephemeralKey) := BLAKE2b-256(“Zcash_Derive_ock”, ovk || cv || cm_u || ephemeralKey)
 ///
-/// https://zips.z.cash/protocol/nu5.pdf#concreteprfs
+/// <https://zips.z.cash/protocol/nu5.pdf#concreteprfs>
 fn prf_ock(ovk: [u8; 32], cv: [u8; 32], cm_u: [u8; 32], ephemeral_key: [u8; 32]) -> [u8; 32] {
     let hash = blake2b_simd::Params::new()
         .hash_length(32)
@@ -89,7 +89,7 @@ fn prf_ock(ovk: [u8; 32], cv: [u8; 32], cm_u: [u8; 32], ephemeral_key: [u8; 32])
 ///
 /// _CRH^ivk(ak, nk) := BLAKE2s-256("Zcashivk", ak || nk)_
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#concretecrhivk
+/// <https://zips.z.cash/protocol/protocol.pdf#concretecrhivk>
 fn crh_ivk(ak: [u8; 32], nk: [u8; 32]) -> [u8; 32] {
     let hash = blake2s_simd::Params::new()
         .hash_length(32)
@@ -112,7 +112,7 @@ fn crh_ivk(ak: [u8; 32], nk: [u8; 32]) -> [u8; 32] {
 /// input.
 ///
 /// [0]: https://github.com/zcash/librustzcash/blob/master/zcash_primitives/src/group_hash.rs#L15
-/// https://zips.z.cash/protocol/protocol.pdf#concretegrouphashjubjub
+/// <https://zips.z.cash/protocol/protocol.pdf#concretegrouphashjubjub>
 fn jubjub_group_hash(d: [u8; 8], m: &[u8]) -> Option<jubjub::ExtendedPoint> {
     let hash = blake2s_simd::Params::new()
         .hash_length(32)
@@ -143,7 +143,7 @@ fn jubjub_group_hash(d: [u8; 8], m: &[u8]) -> Option<jubjub::ExtendedPoint> {
 /// input.
 ///
 /// [0]: https://github.com/zcash/librustzcash/blob/master/zcash_primitives/src/jubjub/mod.rs#L409
-/// https://zips.z.cash/protocol/protocol.pdf#concretegrouphashjubjub
+/// <https://zips.z.cash/protocol/protocol.pdf#concretegrouphashjubjub>
 // TODO: move common functions like these out of the keys module into
 // a more appropriate location
 pub(super) fn find_group_hash(d: [u8; 8], m: &[u8]) -> jubjub::ExtendedPoint {
@@ -164,17 +164,17 @@ pub(super) fn find_group_hash(d: [u8; 8], m: &[u8]) -> jubjub::ExtendedPoint {
     }
 }
 
-/// Instance of FindGroupHash for JubJub, using personalized by
+/// Instance of FindGroupHash for Jubjub, using personalized by
 /// BLAKE2s for picking the proof generation key base point.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
+/// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
 fn zcash_h() -> jubjub::ExtendedPoint {
     find_group_hash(*b"Zcash_H_", b"")
 }
 
 /// Used to derive a diversified base point from a diversifier value.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#concretediversifyhash
+/// <https://zips.z.cash/protocol/protocol.pdf#concretediversifyhash>
 fn diversify_hash(d: [u8; 11]) -> Option<jubjub::ExtendedPoint> {
     jubjub_group_hash(*b"Zcash_gd", &d)
 }
@@ -331,8 +331,8 @@ impl From<SpendingKey> for SpendAuthorizingKey {
     /// Invokes Blake2b-512 as _PRF^expand_, t=0, to derive a
     /// SpendAuthorizingKey from a SpendingKey.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concreteprfs
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concreteprfs>
     fn from(spending_key: SpendingKey) -> SpendAuthorizingKey {
         let hash_bytes = prf_expand(spending_key.bytes, &[0]);
 
@@ -388,8 +388,8 @@ impl From<ProofAuthorizingKey> for [u8; 32] {
 impl From<SpendingKey> for ProofAuthorizingKey {
     /// For this invocation of Blake2b-512 as _PRF^expand_, t=1.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concreteprfs
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concreteprfs>
     fn from(spending_key: SpendingKey) -> ProofAuthorizingKey {
         let hash_bytes = prf_expand(spending_key.bytes, &[1]);
 
@@ -442,8 +442,8 @@ impl From<OutgoingViewingKey> for [u8; 32] {
 impl From<SpendingKey> for OutgoingViewingKey {
     /// For this invocation of Blake2b-512 as _PRF^expand_, t=2.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concreteprfs
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concreteprfs>
     fn from(spending_key: SpendingKey) -> OutgoingViewingKey {
         let hash_bytes = prf_expand(spending_key.bytes, &[2]);
 
@@ -554,9 +554,9 @@ impl From<ProofAuthorizingKey> for NullifierDerivingKey {
     /// the resulting generator point to scalar multiply the
     /// ProofAuthorizingKey into the new NullifierDerivingKey
     ///
-    /// https://github.com/zcash/librustzcash/blob/master/zcash_primitives/src/group_hash.rs
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concretegrouphashjubjub
+    /// <https://github.com/zcash/librustzcash/blob/master/zcash_primitives/src/group_hash.rs>
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concretegrouphashjubjub>
     fn from(nsk: ProofAuthorizingKey) -> Self {
         // Should this point, when generated, be fixed for the rest of
         // the protocol instance? Since this is kind of hash-and-pray, it
@@ -647,9 +647,9 @@ impl From<[u8; 32]> for IncomingViewingKey {
 impl From<(AuthorizingKey, NullifierDerivingKey)> for IncomingViewingKey {
     /// For this invocation of Blake2s-256 as _CRH^ivk_.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concreteprfs
-    /// https://zips.z.cash/protocol/protocol.pdf#jubjub
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concreteprfs>
+    /// <https://zips.z.cash/protocol/protocol.pdf#jubjub>
     // TODO: return None if ivk = 0
     //
     // "If ivk = 0, discard this key and start over with a new
@@ -794,8 +794,8 @@ impl Diversifier {
     /// as a preimage to a valid diversified base point when used to
     /// derive a diversified payment address.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concretediversifyhash
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concretediversifyhash>
     pub fn new<T>(csprng: &mut T) -> Self
     where
         T: RngCore + CryptoRng,
@@ -842,7 +842,7 @@ impl From<[u8; 32]> for TransmissionKey {
     /// affine point, failing if the element is not on
     /// the curve or non-canonical.
     ///
-    /// https://github.com/zkcrypto/jubjub/blob/master/src/lib.rs#L411
+    /// <https://github.com/zkcrypto/jubjub/blob/master/src/lib.rs#L411>
     fn from(bytes: [u8; 32]) -> Self {
         Self(jubjub::AffinePoint::from_bytes(bytes).unwrap())
     }
@@ -858,8 +858,8 @@ impl From<(IncomingViewingKey, Diversifier)> for TransmissionKey {
     /// This includes _KA^Sapling.DerivePublic(ivk, G_d)_, which is just a
     /// scalar mult _\[ivk\]G_d_.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents
-    /// https://zips.z.cash/protocol/protocol.pdf#concretesaplingkeyagreement
+    /// <https://zips.z.cash/protocol/protocol.pdf#saplingkeycomponents>
+    /// <https://zips.z.cash/protocol/protocol.pdf#concretesaplingkeyagreement>
     fn from((ivk, d): (IncomingViewingKey, Diversifier)) -> Self {
         Self(jubjub::AffinePoint::from(
             diversify_hash(d.0).unwrap() * ivk.scalar,
@@ -890,7 +890,7 @@ mod fvk_hrp {
 /// Human-Readable Part is "zviews". For incoming viewing keys on the
 /// test network, the Human-Readable Part is "zviewtestsapling".
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#saplingfullviewingkeyencoding
+/// <https://zips.z.cash/protocol/protocol.pdf#saplingfullviewingkeyencoding>
 #[derive(Copy, Clone, Eq, PartialEq)]
 pub struct FullViewingKey {
     network: Network,
@@ -960,7 +960,7 @@ impl FromStr for FullViewingKey {
 
 /// An ephemeral public key for Sapling key agreement.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#concretesaplingkeyagreement
+/// <https://zips.z.cash/protocol/protocol.pdf#concretesaplingkeyagreement>
 #[derive(Copy, Clone, Deserialize, PartialEq, Serialize)]
 pub struct EphemeralPublicKey(
     #[serde(with = "serde_helpers::AffinePoint")] pub(crate) jubjub::AffinePoint,

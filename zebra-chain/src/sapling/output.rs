@@ -41,7 +41,7 @@ pub struct Output {
 
 /// Wrapper for `Output` serialization in a `V4` transaction.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#outputencoding
+/// <https://zips.z.cash/protocol/protocol.pdf#outputencoding>
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct OutputInTransactionV4(pub Output);
 
@@ -111,7 +111,7 @@ impl Output {
     ///
     /// NB: jubjub::Fq is a type alias for bls12_381::Scalar.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#cctsaplingoutput
+    /// <https://zips.z.cash/protocol/protocol.pdf#cctsaplingoutput>
     pub fn primary_inputs(&self) -> Vec<jubjub::Fq> {
         let mut inputs = vec![];
 

@@ -79,7 +79,7 @@ impl From<(NullifierDerivingKey, Note, NoteCommitment)> for Nullifier {
     ///
     /// DeriveNullifier_nk(ρ, ψ, cm) = Extract_P(︀ [︀ (PRF^nfOrchard_nk(ρ) + ψ) mod q_P ]︀ K^Orchard + cm)︀
     ///
-    /// https://zips.z.cash/protocol/nu5.pdf#commitmentsandnullifiers
+    /// <https://zips.z.cash/protocol/nu5.pdf#commitmentsandnullifiers>
     #[allow(non_snake_case)]
     fn from((nk, note, cm): (NullifierDerivingKey, Note, NoteCommitment)) -> Self {
         // https://zips.z.cash/protocol/nu5.pdf#commitmentsandnullifiers

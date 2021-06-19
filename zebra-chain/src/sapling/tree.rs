@@ -32,7 +32,7 @@ const MERKLE_DEPTH: usize = 32;
 /// where l = I2LEBSP_6(MerkleDepth^Sapling − 1 − layer) and
 /// left, right, and the output are all technically 255 bits (l_MerkleSapling), not 256.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#merklecrh
+/// <https://zips.z.cash/protocol/protocol.pdf#merklecrh>
 fn merkle_crh_sapling(layer: u8, left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
     let mut s = bitvec![Lsb0, u8;];
 
@@ -47,7 +47,7 @@ fn merkle_crh_sapling(layer: u8, left: [u8; 32], right: [u8; 32]) -> [u8; 32] {
 lazy_static! {
     /// Sapling note commitment trees have a max depth of 32.
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#constants
+    /// <https://zips.z.cash/protocol/protocol.pdf#constants>
     static ref EMPTY_ROOTS: Vec<[u8; 32]> = {
         // Uncommitted^Sapling = I2LEBSP_l_MerkleSapling(1)
         let mut v = vec![jubjub::Fq::one().to_bytes()];
@@ -65,7 +65,7 @@ lazy_static! {
 /// The index of a note's commitment at the leafmost layer of its Note
 /// Commitment Tree.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#merkletree
+/// <https://zips.z.cash/protocol/protocol.pdf#merkletree>
 pub struct Position(pub(crate) u64);
 
 /// Sapling note commitment tree root node hash.

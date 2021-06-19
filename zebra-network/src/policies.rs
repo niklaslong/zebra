@@ -3,7 +3,7 @@ use tower::retry::Policy;
 
 /// A very basic retry policy with a limited number of retry attempts.
 ///
-/// XXX Remove this when https://github.com/tower-rs/tower/pull/414 lands.
+/// XXX Remove this when <https://github.com/tower-rs/tower/pull/414> lands.
 #[derive(Clone, Debug)]
 pub struct RetryLimit {
     remaining_tries: usize,
@@ -42,7 +42,7 @@ impl<Req: Clone + std::fmt::Debug, Res, E: std::fmt::Debug> Policy<Req, Res, E> 
 
 /// A very basic retry policy that always retries failed requests.
 ///
-/// XXX remove this when https://github.com/tower-rs/tower/pull/414 lands.
+/// XXX remove this when <https://github.com/tower-rs/tower/pull/414> lands.
 #[derive(Clone, Debug)]
 pub struct RetryErrors;
 
