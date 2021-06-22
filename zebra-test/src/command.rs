@@ -26,7 +26,7 @@ pub fn test_cmd(command_path: &str, tempdir: &Path) -> Result<Command> {
     Ok(cmd)
 }
 
-/// Wrappers for `Command` methods to integrate with [`zebra_test`].
+/// Wrappers for `Command` methods to integrate with `zebra-test`.
 pub trait CommandExt {
     /// wrapper for `status` fn on `Command` that constructs informative error
     /// reports
@@ -435,7 +435,7 @@ impl<T> TestOutput<T> {
     /// Checks each line in the output of a command, using a closure to determine
     /// if the line is valid.
     ///
-    /// See [`output_check`] for details.
+    /// See [`Self::output_check()`] for details.
     #[instrument(skip(self, line_predicate, output))]
     pub fn any_output_line<P>(
         &self,
@@ -466,7 +466,7 @@ impl<T> TestOutput<T> {
 
     /// Tests if any lines in the output of a command contain `s`.
     ///
-    /// See [`any_output_line`] for details.
+    /// See [`Self::any_output_line()`] for details.
     #[instrument(skip(self, output))]
     pub fn any_output_line_contains(
         &self,

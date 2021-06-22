@@ -142,7 +142,7 @@ pub enum Request {
     /// transaction hash, allowing the remote peer to choose whether to download
     /// it. Remote peers who choose to download the transaction will generate a
     /// [`Request::TransactionsByHash`] against the "inbound" service passed to
-    /// [`zebra_network::init`].
+    /// [`zebra_network::init`](crate::init).
     ///
     /// The peer set routes this request specially, sending it to *every*
     /// available peer.
@@ -158,7 +158,7 @@ pub enum Request {
     /// block hash, allowing the remote peer to choose whether to download
     /// it. Remote peers who choose to download the block will generate a
     /// [`Request::BlocksByHash`] against the "inbound" service passed to
-    /// [`zebra_network::init`].
+    /// [`zebra_network::init`](crate::init).
     ///
     /// The peer set routes this request specially, sending it to *every*
     /// available peer.

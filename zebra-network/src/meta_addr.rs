@@ -86,7 +86,7 @@ impl Ord for PeerAddrState {
     /// `PeerAddrState`s are sorted in approximate reconnection attempt
     /// order, ignoring liveness.
     ///
-    /// See [`CandidateSet`] and [`MetaAddr::cmp`] for more details.
+    /// See `CandidateSet` and [`MetaAddr::cmp`] for more details.
     fn cmp(&self, other: &Self) -> Ordering {
         use Ordering::*;
         match (self, other) {
@@ -176,11 +176,11 @@ pub struct MetaAddr {
     //       then some fields could be required in some states
 }
 
-/// A change to an existing `MetaAddr`.
+/// A change to an existing [`MetaAddr`].
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 #[cfg_attr(any(test, feature = "proptest-impl"), derive(Arbitrary))]
 pub enum MetaAddrChange {
-    /// Creates a new gossiped `MetaAddr`.
+    /// Creates a new gossiped [`MetaAddr`].
     NewGossiped {
         #[cfg_attr(
             any(test, feature = "proptest-impl"),
@@ -191,7 +191,7 @@ pub enum MetaAddrChange {
         untrusted_last_seen: DateTime32,
     },
 
-    /// Creates new alternate `MetaAddr`.
+    /// Creates new alternate [`MetaAddr`].
     ///
     /// Based on the canonical peer address in `Version` messages.
     NewAlternate {
@@ -203,7 +203,7 @@ pub enum MetaAddrChange {
         untrusted_services: PeerServices,
     },
 
-    /// Creates new local listener `MetaAddr`.
+    /// Creates new local listener [`MetaAddr`].
     NewLocal {
         #[cfg_attr(
             any(test, feature = "proptest-impl"),
@@ -212,7 +212,7 @@ pub enum MetaAddrChange {
         addr: SocketAddr,
     },
 
-    /// Updates an existing `MetaAddr` when an outbound connection attempt
+    /// Updates an existing [`MetaAddr`] when an outbound connection attempt
     /// starts.
     UpdateAttempt {
         #[cfg_attr(
@@ -222,7 +222,7 @@ pub enum MetaAddrChange {
         addr: SocketAddr,
     },
 
-    /// Updates an existing `MetaAddr` when a peer responds with a message.
+    /// Updates an existing [`MetaAddr`] when a peer responds with a message.
     UpdateResponded {
         #[cfg_attr(
             any(test, feature = "proptest-impl"),
@@ -232,7 +232,7 @@ pub enum MetaAddrChange {
         services: PeerServices,
     },
 
-    /// Updates an existing `MetaAddr` when a peer fails.
+    /// Updates an existing [`MetaAddr`] when a peer fails.
     UpdateFailed {
         #[cfg_attr(
             any(test, feature = "proptest-impl"),
@@ -271,7 +271,7 @@ impl MetaAddr {
         latest_seen.or(latest_try).unwrap_or(chrono::MIN_DATETIME)
     }
 
-    /// Returns a new `MetaAddr`, based on the deserialized fields from a
+    /// Returns a new [`MetaAddr`], based on the deserialized fields from a
     /// gossiped peer [`Addr`][crate::protocol::external::Message::Addr] message.
     pub fn new_gossiped_meta_addr(
         addr: SocketAddr,
@@ -290,7 +290,7 @@ impl MetaAddr {
     }
 
     /// Returns a [`MetaAddrChange::NewGossiped`], based on a gossiped peer
-    /// `MetaAddr`.
+    /// [`MetaAddr`].
     pub fn new_gossiped_change(self) -> MetaAddrChange {
         NewGossiped {
             addr: self.addr,
@@ -320,13 +320,13 @@ impl MetaAddr {
         }
     }
 
-    /// Returns a [`MetaAddrChange::UpdateConnectionAttempt`] for a peer that we
+    /// Returns a `MetaAddrChange::UpdateConnectionAttempt` for a peer that we
     /// want to make an outbound connection to.
     pub fn new_reconnect(addr: &SocketAddr) -> MetaAddrChange {
         UpdateAttempt { addr: *addr }
     }
 
-    /// Returns a [`MetaAddrChange::NewAlternate`] for a peer's alternate address,
+    /// Returns a `MetaAddrChange::NewAlternate` for a peer's alternate address,
     /// received via a `Version` message.
     pub fn new_alternate(addr: &SocketAddr, untrusted_services: &PeerServices) -> MetaAddrChange {
         NewAlternate {
@@ -335,12 +335,12 @@ impl MetaAddr {
         }
     }
 
-    /// Returns a [`MetaAddrChange::NewLocalListener`] for our own listener address.
+    /// Returns a `MetaAddrChange::NewLocalListener` for our own listener address.
     pub fn new_local_listener(addr: &SocketAddr) -> MetaAddrChange {
         NewLocal { addr: *addr }
     }
 
-    /// Returns a [`MetaAddrChange::UpdateFailed`] for a peer that has just had
+    /// Returns a `MetaAddrChange::UpdateFailed` for a peer that has just had
     /// an error.
     pub fn new_errored(
         addr: &SocketAddr,
@@ -352,7 +352,7 @@ impl MetaAddr {
         }
     }
 
-    /// Create a new `MetaAddr` for a peer that has just shut down.
+    /// Create a new [`MetaAddr`] for a peer that has just shut down.
     pub fn new_shutdown(
         addr: &SocketAddr,
         services: impl Into<Option<PeerServices>>,
@@ -437,9 +437,9 @@ impl MetaAddr {
             && self.addr.port() != 0
     }
 
-    /// Return a sanitized version of this `MetaAddr`, for sending to a remote peer.
+    /// Return a sanitized version of this [`MetaAddr`], for sending to a remote peer.
     ///
-    /// Returns `None` if this `MetaAddr` should not be sent to remote peers.
+    /// Returns `None` if this [`MetaAddr`] should not be sent to remote peers.
     pub fn sanitize(&self) -> Option<MetaAddr> {
         let interval = crate::constants::TIMESTAMP_TRUNCATION_SECONDS;
         let ts = self.last_seen()?.timestamp();
@@ -571,7 +571,7 @@ impl MetaAddrChange {
         }
     }
 
-    /// If this change can create a new `MetaAddr`, return that address.
+    /// If this change can create a new [`MetaAddr`], return that address.
     pub fn into_new_meta_addr(self) -> Option<MetaAddr> {
         match self {
             NewGossiped { .. } | NewAlternate { .. } | NewLocal { .. } => Some(MetaAddr {
@@ -590,8 +590,8 @@ impl MetaAddrChange {
         }
     }
 
-    /// Apply this change to a previous `MetaAddr` from the address book,
-    /// producing a new or updated `MetaAddr`.
+    /// Apply this change to a previous [`MetaAddr`] from the address book,
+    /// producing a new or updated [`MetaAddr`].
     ///
     /// If the change isn't valid for the `previous` address, returns `None`.
     pub fn apply_to_meta_addr(&self, previous: impl Into<Option<MetaAddr>>) -> Option<MetaAddr> {
@@ -645,13 +645,13 @@ impl MetaAddrChange {
 }
 
 impl Ord for MetaAddr {
-    /// `MetaAddr`s are sorted in approximate reconnection attempt order, but
+    /// [`MetaAddr`]s are sorted in approximate reconnection attempt order, but
     /// with `Responded` peers sorted first as a group.
     ///
     /// This order should not be used for reconnection attempts: use
-    /// [`AddressBook::reconnection_peers`] instead.
+    /// [`AddressBook::reconnection_peers()`] instead.
     ///
-    /// See [`CandidateSet`] for more details.
+    /// See `CandidateSet` for more details.
     fn cmp(&self, other: &Self) -> Ordering {
         use std::net::IpAddr::{V4, V6};
         use Ordering::*;

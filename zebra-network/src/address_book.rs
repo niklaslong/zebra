@@ -306,7 +306,7 @@ impl AddressBook {
     /// Returns an iterator that drains entries from the address book.
     ///
     /// Removes entries in reconnection attempt then arbitrary order,
-    /// see [`peers`] for details.
+    /// see [`Self::peers()`] for details.
     pub fn drain(&'_ mut self) -> impl Iterator<Item = MetaAddr> + '_ {
         Drain { book: self }
     }

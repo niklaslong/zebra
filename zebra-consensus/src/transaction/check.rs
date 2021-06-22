@@ -22,7 +22,7 @@ use crate::error::TransactionError;
 ///
 /// This check counts both `Coinbase` and `PrevOut` transparent inputs.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#txnencodingandconsensus
+/// <https://zips.z.cash/protocol/protocol.pdf#txnencodingandconsensus>
 pub fn has_inputs_and_outputs(tx: &Transaction) -> Result<(), TransactionError> {
     let tx_in_count = tx.inputs().len();
     let tx_out_count = tx.outputs().len();
@@ -49,7 +49,7 @@ pub fn has_inputs_and_outputs(tx: &Transaction) -> Result<(), TransactionError> 
 ///
 /// This check only counts `PrevOut` transparent inputs.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#txnencodingandconsensus
+/// <https://zips.z.cash/protocol/protocol.pdf#txnencodingandconsensus>
 pub fn coinbase_tx_no_prevout_joinsplit_spend(tx: &Transaction) -> Result<(), TransactionError> {
     if tx.is_coinbase() {
         if tx.contains_prevout_input() {
@@ -71,9 +71,9 @@ pub fn coinbase_tx_no_prevout_joinsplit_spend(tx: &Transaction) -> Result<(), Tr
 }
 
 /// Check that a Spend description's cv and rk are not of small order,
-/// i.e. [h_J]cv MUST NOT be 𝒪_J and [h_J]rk MUST NOT be 𝒪_J.
+/// i.e. \[h_J\]cv MUST NOT be 𝒪_J and \[h_J\]rk MUST NOT be 𝒪_J.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#spenddesc
+/// <https://zips.z.cash/protocol/protocol.pdf#spenddesc>
 pub fn spend_cv_rk_not_small_order(spend: &Spend<PerSpendAnchor>) -> Result<(), TransactionError> {
     if bool::from(spend.cv.0.is_small_order())
         || bool::from(
@@ -89,9 +89,9 @@ pub fn spend_cv_rk_not_small_order(spend: &Spend<PerSpendAnchor>) -> Result<(), 
 }
 
 /// Check that a Output description's cv and epk are not of small order,
-/// i.e. [h_J]cv MUST NOT be 𝒪_J and [h_J]epk MUST NOT be 𝒪_J.
+/// i.e. \[h_J\]cv MUST NOT be 𝒪_J and \[h_J\]epk MUST NOT be 𝒪_J.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#outputdesc
+/// <https://zips.z.cash/protocol/protocol.pdf#outputdesc>
 pub fn output_cv_epk_not_small_order(output: &Output) -> Result<(), TransactionError> {
     if bool::from(output.cv.0.is_small_order())
         || bool::from(

@@ -1,6 +1,6 @@
 //! Top-level semantic block verification for Zebra.
 //!
-//! Verifies blocks using the [`CheckpointVerifier`] or full [`BlockVerifier`],
+//! Verifies blocks using the `CheckpointVerifier` or full `BlockVerifier`,
 //! depending on the config and block height.
 
 #[cfg(test)]

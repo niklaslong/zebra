@@ -44,7 +44,7 @@ pub enum Message {
     /// analogous to a `ClientHello` message in TLS, used to begin a handshake, and
     /// is distinct from a simple version number.
     ///
-    /// [Bitcoin reference](https://en.bitcoin.it/wiki/Protocol_documentation#version)
+    /// [Bitcoin reference]: https://en.bitcoin.it/wiki/Protocol_documentation#version
     Version {
         /// The network version number supported by the sender.
         version: Version,
@@ -83,7 +83,8 @@ pub enum Message {
         start_height: block::Height,
 
         /// Whether the remote peer should announce relayed
-        /// transactions or not, see [BIP 0037](https://github.com/bitcoin/bips/blob/master/bip-0037.mediawiki)
+        /// transactions or not, see [BIP-0037].
+        /// [BIP-0037]: https://github.com/bitcoin/bips/blob/master/bip-0037.mediawiki
         relay: bool,
     },
 
