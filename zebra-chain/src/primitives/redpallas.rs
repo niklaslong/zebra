@@ -1,3 +1,5 @@
+//! RedPallas cryptographic primitives.
+
 // -*- mode: rust; -*-
 //
 // This file is part of redjubjub.
@@ -7,12 +9,6 @@
 // Authors:
 // - Deirdre Connolly <deirdre@zfnd.org>
 // - Henry de Valence <hdevalence@hdevalence.ca>
-
-//! RedPallas digital signatures.
-//!
-//! RedDSA (a Schnorr-based signature scheme) signatures over the [Pallas][pallas] curve.
-//!
-//! <https://zips.z.cash/protocol/protocol.pdf#concretereddsa>
 
 use group::GroupEncoding;
 use halo2::pasta::pallas;
