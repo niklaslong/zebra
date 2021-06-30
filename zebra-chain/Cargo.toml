@@ -76,7 +76,3 @@ zebra-test = { path = "../zebra-test/" }
 [[bench]]
 name = "block"
 harness = false
-
-[[bench]]
-name = "redpallas"
-harness = false

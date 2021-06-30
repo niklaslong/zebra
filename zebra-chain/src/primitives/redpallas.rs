@@ -13,12 +13,10 @@
 use group::GroupEncoding;
 use halo2::pasta::pallas;
 
-pub mod batch;
 mod constants;
 #[allow(missing_docs)]
 mod error;
 mod hash;
-mod scalar_mul;
 mod signature;
 mod signing_key;
 #[cfg(test)]
