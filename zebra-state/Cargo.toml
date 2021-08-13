@@ -38,7 +38,7 @@ proptest = { version = "0.10.1", optional = true }
 zebra-test = { path = "../zebra-test/", optional = true }
 
 [dev-dependencies]
-zebra-chain = { path = "../zebra-chain", features = ["proptest-impl"] }
+zebra-chain = { path = "../zebra-chain", features = ["proptest-impl", "fake_activation_heights"] }
 zebra-test = { path = "../zebra-test/" }
 
 color-eyre = "0.5.11"
@@ -54,3 +54,4 @@ jubjub = "0.7.0"
 
 proptest = "0.10.1"
 proptest-derive = "0.3"
+

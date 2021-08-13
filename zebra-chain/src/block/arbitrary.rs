@@ -11,6 +11,7 @@ use crate::{
     amount::NonNegative,
     block,
     fmt::SummaryDebug,
+    history_tree::HistoryTree,
     parameters::{
         Network,
         NetworkUpgrade::{self, *},
@@ -390,6 +391,9 @@ impl Block {
             + 'static,
     {
         let mut vec = Vec::with_capacity(count);
+        let mut sapling_tree = sapling::tree::NoteCommitmentTree::default();
+        let mut orchard_tree = orchard::tree::NoteCommitmentTree::default();
+        let mut history_tree = HistoryTree::default();
 
         // generate block strategies with the correct heights
         for _ in 0..count {
@@ -408,6 +412,9 @@ impl Block {
                 if let Some(previous_block_hash) = previous_block_hash {
                     block.header.previous_block_hash = previous_block_hash;
                 }
+                if let Some(tree_root) = history_tree.hash() {
+                    block.header.commitment_bytes = tree_root.into();
+                }
 
                 let mut new_transactions = Vec::new();
                 for (tx_index_in_block, transaction) in block.transactions.drain(..).enumerate() {
@@ -419,6 +426,12 @@ impl Block {
                         &mut utxos,
                         check_transparent_coinbase_spend,
                     ) {
+                        for sapling_note_commitment in transaction.sapling_note_commitments() {
+                            sapling_tree.append(*sapling_note_commitment).unwrap();
+                        }
+                        for orchard_note_commitment in transaction.orchard_note_commitments() {
+                            orchard_tree.append(*orchard_note_commitment).unwrap();
+                        }
                         new_transactions.push(Arc::new(transaction));
                     }
                 }
@@ -429,6 +442,12 @@ impl Block {
                 // TODO: if needed, fixup after modifying the block:
                 // - history and authorizing data commitments
                 // - the transaction merkle root
+                history_tree.push(
+                    Network::Mainnet,
+                    Arc::new(block.clone()),
+                    sapling_tree.root(),
+                    orchard_tree.root(),
+                );
 
                 // now that we've made all the changes, calculate our block hash,
                 // so the next block can use it

@@ -48,30 +48,56 @@ pub enum NetworkUpgrade {
 ///
 /// This is actually a bijective map, but it is const, so we use a vector, and
 /// do the uniqueness check in the unit tests.
+// #[cfg(not(fake_activation_heights))]
+// pub(crate) const MAINNET_ACTIVATION_HEIGHTS: &[(block::Height, NetworkUpgrade)] = &[
+//     (block::Height(0), Genesis),
+//     (block::Height(1), BeforeOverwinter),
+//     (block::Height(347_500), Overwinter),
+//     (block::Height(419_200), Sapling),
+//     (block::Height(653_600), Blossom),
+//     (block::Height(903_000), Heartwood),
+//     (block::Height(1_046_400), Canopy),
+//     // TODO: Add Nu5 mainnet activation height
+// ];
+
+#[cfg(all(feature = "fake_activation_heights"))]
 pub(crate) const MAINNET_ACTIVATION_HEIGHTS: &[(block::Height, NetworkUpgrade)] = &[
     (block::Height(0), Genesis),
-    (block::Height(1), BeforeOverwinter),
-    (block::Height(347_500), Overwinter),
-    (block::Height(419_200), Sapling),
-    (block::Height(653_600), Blossom),
-    (block::Height(903_000), Heartwood),
-    (block::Height(1_046_400), Canopy),
-    // TODO: Add Nu5 mainnet activation height
+    (block::Height(5), BeforeOverwinter),
+    (block::Height(10), Overwinter),
+    (block::Height(15), Sapling),
+    (block::Height(20), Blossom),
+    (block::Height(25), Heartwood),
+    (block::Height(30), Canopy),
+    (block::Height(35), Nu5),
 ];
 
 /// Testnet network upgrade activation heights.
 ///
 /// This is actually a bijective map, but it is const, so we use a vector, and
 /// do the uniqueness check in the unit tests.
+// #[cfg(not(fake_activation_heights))]
+// pub(crate) const TESTNET_ACTIVATION_HEIGHTS: &[(block::Height, NetworkUpgrade)] = &[
+//     (block::Height(0), Genesis),
+//     (block::Height(1), BeforeOverwinter),
+//     (block::Height(207_500), Overwinter),
+//     (block::Height(280_000), Sapling),
+//     (block::Height(584_000), Blossom),
+//     (block::Height(903_800), Heartwood),
+//     (block::Height(1_028_500), Canopy),
+//     // TODO: Add Nu5 testnet activation height
+// ];
+
+#[cfg(all(feature = "fake_activation_heights"))]
 pub(crate) const TESTNET_ACTIVATION_HEIGHTS: &[(block::Height, NetworkUpgrade)] = &[
     (block::Height(0), Genesis),
-    (block::Height(1), BeforeOverwinter),
-    (block::Height(207_500), Overwinter),
-    (block::Height(280_000), Sapling),
-    (block::Height(584_000), Blossom),
-    (block::Height(903_800), Heartwood),
-    (block::Height(1_028_500), Canopy),
-    // TODO: Add Nu5 testnet activation height
+    (block::Height(5), BeforeOverwinter),
+    (block::Height(10), Overwinter),
+    (block::Height(15), Sapling),
+    (block::Height(20), Blossom),
+    (block::Height(25), Heartwood),
+    (block::Height(30), Canopy),
+    (block::Height(35), Nu5),
 ];
 
 /// The Consensus Branch Id, used to bind transactions and blocks to a
