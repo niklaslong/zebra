@@ -11,6 +11,12 @@ WORKDIR /zebra
 ARG SHORT_SHA
 ENV SHORT_SHA $SHORT_SHA
 
+ARG CHECKPOINT_SYNC=true
+ENV CHECKPOINT_SYNC $CHECKPOINT_SYNC
+
+ARG NETWORK=Mainnet
+ENV NETWORK $NETWORK
+
 ENV RUST_BACKTRACE full
 ENV CARGO_HOME /zebra/.cargo/
 
@@ -29,9 +35,6 @@ RUN apt-get update && \
 	ca-certificates
 
 COPY --from=builder /zebra/target/release/zebrad /
-
-ARG CHECKPOINT_SYNC=true
-ARG NETWORK=Mainnet
 
 RUN printf "[consensus]\n" >> /zebrad.toml
 RUN printf "checkpoint_sync = ${CHECKPOINT_SYNC}\n" >> /zebrad.toml
