@@ -29,12 +29,14 @@ pub enum Commitment {
     /// The root LEBS2OSP256(rt) of the Sapling note commitment tree
     /// corresponding to the final Sapling treestate of this block.
     ///
-    /// Subsequent `Commitment` variants also commit to the `FinalSaplingRoot`,
-    /// via their `EarliestSaplingRoot` and `LatestSaplingRoot` fields.
+    /// Subsequent [`Commitment`] variants also commit to the
+    /// [`FinalSaplingRoot`](Commitment::FinalSaplingRoot), via
+    /// their `EarliestSaplingRoot` and `LatestSaplingRoot` fields.
     ///
-    /// Since Zebra checkpoints on Canopy, we don't need to validate this
-    /// field, but since it's included in the ChainHistoryRoot, we are
-    /// already calculating it, so we might as well validate it.
+    /// Since Zebra checkpoints on Canopy, we don't need to validate this field,
+    /// but since it's included in the
+    /// [`ChainHistoryRoot`](Commitment::ChainHistoryRoot), we are already
+    /// calculating it, so we might as well validate it.
     ///
     /// TODO: this field is verified during semantic verification
     FinalSaplingRoot(sapling::tree::Root),
@@ -46,7 +48,7 @@ pub enum Commitment {
     /// This MUST NOT be interpreted as a root hash.
     /// See ZIP-221 for details.
     ///
-    /// This field is verified in `Commitment::from_bytes`.
+    /// This field is verified in [`Commitment::from_bytes()`].
     ChainHistoryActivationReserved,
 
     /// [(Heartwood activation block + 1) to Canopy] The root of a Merkle
@@ -68,7 +70,8 @@ pub enum Commitment {
     /// need to verify the chain history root from `Canopy + 1 block` onwards,
     /// using a new history tree based on the `Canopy` activation block.
     ///
-    /// NU5 and later upgrades use the [`ChainHistoryBlockTxAuthCommitment`]
+    /// NU5 and later upgrades use the
+    /// [`ChainHistoryBlockTxAuthCommitment`](Commitment::ChainHistoryBlockTxAuthCommitment)
     /// variant.
     ///
     /// TODO: this field is verified during contextual verification
@@ -87,7 +90,7 @@ pub enum Commitment {
     /// This commitment supports the FlyClient protocol and non-malleable
     /// transaction IDs. See ZIP-221 and ZIP-244 for details.
     ///
-    /// See also the [`ChainHistoryRoot`] variant.
+    /// See also the [`ChainHistoryRoot`](Commitment::ChainHistoryRoot) variant.
     ///
     /// TODO: this field is verified during contextual verification
     ChainHistoryBlockTxAuthCommitment(ChainHistoryBlockTxAuthCommitmentHash),
