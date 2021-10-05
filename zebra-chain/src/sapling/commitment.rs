@@ -28,7 +28,7 @@ use pedersen_hashes::*;
 /// the uniform distribution on 𝔽_{r_𝕁} needed for Sapling commitment schemes'
 /// trapdoor generators.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#jubjub
+/// <https://zips.z.cash/protocol/protocol.pdf#jubjub>
 pub fn generate_trapdoor<T>(csprng: &mut T) -> jubjub::Fr
 where
     T: RngCore + CryptoRng,
@@ -94,7 +94,7 @@ impl NoteCommitment {
     /// NoteCommit^Sapling_rcm (g*_d , pk*_d , v) :=
     ///   WindowedPedersenCommit_rcm([1; 6] || I2LEBSP_64(v) || g*_d || pk*_d)
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#concretewindowedcommit
+    /// <https://zips.z.cash/protocol/protocol.pdf#concretewindowedcommit>
     #[allow(non_snake_case)]
     pub fn new<T>(
         csprng: &mut T,
@@ -140,7 +140,7 @@ impl NoteCommitment {
 
     /// Hash Extractor for Jubjub (?)
     ///
-    /// https://zips.z.cash/protocol/protocol.pdf#concreteextractorjubjub
+    /// <https://zips.z.cash/protocol/protocol.pdf#concreteextractorjubjub>
     pub fn extract_u(&self) -> jubjub::Fq {
         self.0.get_u()
     }
@@ -149,7 +149,7 @@ impl NoteCommitment {
 /// A Homomorphic Pedersen commitment to the value of a note, used in Spend and
 /// Output descriptions.
 ///
-/// https://zips.z.cash/protocol/protocol.pdf#concretehomomorphiccommit
+/// <https://zips.z.cash/protocol/protocol.pdf#concretehomomorphiccommit>
 #[derive(Clone, Copy, Deserialize, PartialEq, Serialize)]
 pub struct ValueCommitment(#[serde(with = "serde_helpers::AffinePoint")] pub jubjub::AffinePoint);
 
