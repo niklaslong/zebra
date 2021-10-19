@@ -1,11 +1,8 @@
 use std::{collections::HashSet, pin::Pin, sync::Arc, time::Duration};
 
 use color_eyre::eyre::{eyre, Report};
-use futures::{
-    future::FutureExt,
-    stream::{FuturesUnordered, StreamExt},
-};
-use tokio::time::sleep;
+use futures::stream::{FuturesUnordered, StreamExt};
+use tokio::time::{sleep, timeout};
 use tower::{
     builder::ServiceBuilder, hedge::Hedge, limit::ConcurrencyLimit, retry::Retry, timeout::Timeout,
     Service, ServiceExt,
@@ -309,7 +306,9 @@ where
 
             while !self.prospective_tips.is_empty() {
                 // Check whether any block tasks are currently ready:
-                while let Some(Some(rsp)) = self.downloads.next().now_or_never() {
+                while let Ok(Some(rsp)) =
+                    timeout(Duration::from_millis(1), self.downloads.next()).await
+                {
                     match rsp {
                         Ok(hash) => {
                             tracing::trace!(?hash, "verified and committed block to state");
