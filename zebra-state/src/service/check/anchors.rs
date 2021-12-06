@@ -87,10 +87,15 @@ pub(crate) fn anchors_refer_to_earlier_treestates(
                         }
 
                         interstitial_roots.insert(interstitial_note_commitment_tree.root());
-
-                        prev_joinsplit_pos = curr_joinsplit_pos;
                     }
 
+                    // Remember the current position in the list of JoinSplits
+                    // so that we don't have to build the tree from scratch in
+                    // the next iteration.
+                    prev_joinsplit_pos = curr_joinsplit_pos;
+
+                    // Return an error if the anchor is not in the interstitial
+                    // treestate either.
                     if !interstitial_roots.contains(&anchor) {
                         return Err(ValidateContextError::UnknownSproutAnchor { anchor });
                     }
