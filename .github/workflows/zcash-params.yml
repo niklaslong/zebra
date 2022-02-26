@@ -9,7 +9,7 @@ on:
       - 'zebra-consensus/src/primitives/groth16/params.rs'
       - 'zebra-consensus/src/chain.rs'
       - 'zebrad/src/commands/start.rs'
-      - '.github/workflows/zcash-params.yml'
+      - '/.github/workflows/zcash-params.yml'
 
 env:
   CARGO_INCREMENTAL: '1'
