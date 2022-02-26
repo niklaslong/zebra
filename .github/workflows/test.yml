@@ -17,8 +17,8 @@ on:
       - '**/*.txt'
       - '**/Cargo.toml'
       - '**/Cargo.lock'
-      - 'docker/**'
-      - '.github/workflows/test.yml'
+      - '/docker/**'
+      - '/.github/workflows/test.yml'
 
 env:
   CARGO_INCREMENTAL: '1'

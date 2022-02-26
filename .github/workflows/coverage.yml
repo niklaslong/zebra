@@ -11,7 +11,7 @@ on:
       - '**/Cargo.toml'
       - '**/Cargo.lock'
       - 'codecov.yml'
-      - '.github/workflows/coverage.yml'
+      - '/.github/workflows/coverage.yml'
   pull_request:
     paths:
       - '**/*.rs'
@@ -19,7 +19,7 @@ on:
       - '**/Cargo.toml'
       - '**/Cargo.lock'
       - 'codecov.yml'
-      - '.github/workflows/coverage.yml'
+      - '/.github/workflows/coverage.yml'
 
 env:
   CARGO_INCREMENTAL: 0

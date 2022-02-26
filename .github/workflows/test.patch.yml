@@ -9,8 +9,8 @@ on:
       - '**/*.txt'
       - '**/Cargo.toml'
       - '**/Cargo.lock'
-      - 'docker/**'
-      - '.github/workflows/test.yml'
+      - '/docker/**'
+      - '/.github/workflows/test.yml'
 
 jobs:
   build:

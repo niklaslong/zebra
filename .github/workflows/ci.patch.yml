@@ -9,7 +9,7 @@ on:
       - '**/Cargo.lock'
       - '**/deny.toml'
       - 'docker/**'
-      - '.github/workflows/ci.yml'
+      - '/.github/workflows/ci.yml'
 
 jobs:
   test:

@@ -10,8 +10,8 @@ on:
       - '**/Cargo.toml'
       - '**/Cargo.lock'
       - 'clippy.toml'
-      - '.cargo/config.toml'
-      - '.github/workflows/lint.yml'
+      - '/.cargo/config.toml'
+      - '/.github/workflows/lint.yml'
 
 env:
   CARGO_INCREMENTAL: 0
