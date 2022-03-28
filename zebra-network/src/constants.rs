@@ -1,4 +1,9 @@
-//! Definitions of constants.
+//! Definitions of Zebra network constants, including:
+//! - network protocol versions,
+//! - network protocol user agents,
+//! - peer address limits,
+//! - peer connection limits, and
+//! - peer connection timeouts.
 
 use std::{collections::HashMap, time::Duration};
 
@@ -9,7 +14,10 @@ use regex::Regex;
 use crate::protocol::external::types::*;
 
 use zebra_chain::{
-    parameters::{Network, NetworkUpgrade},
+    parameters::{
+        Network::{self, *},
+        NetworkUpgrade::*,
+    },
     serialization::Duration32,
 };
 
@@ -275,10 +283,15 @@ lazy_static! {
     ///
     /// The minimum network protocol version typically changes after Mainnet and/or
     /// Testnet network upgrades.
-    pub static ref INITIAL_MIN_NETWORK_PROTOCOL_VERSION: HashMap<Network, NetworkUpgrade> = {
+    pub static ref INITIAL_MIN_NETWORK_PROTOCOL_VERSION: HashMap<Network, Version> = {
         let mut hash_map = HashMap::new();
-        hash_map.insert(Network::Mainnet, NetworkUpgrade::Canopy);
-        hash_map.insert(Network::Testnet, NetworkUpgrade::Nu5);
+        hash_map.insert(Mainnet, Version::min_specified_for_upgrade(Mainnet, Canopy));
+        // This is the `zcashd` network protocol version:
+        // - after the first NU5 testnet activation, and
+        // - after updating to the second NU5 testnet activation consensus rules,
+        // - but before setting the second NU5 testnet activation height.
+        hash_map.insert(Testnet, Version(170_040));
+
         hash_map
     };
 
